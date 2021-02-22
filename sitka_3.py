@@ -14,6 +14,7 @@ for index, column_header in enumerate(header_row):
     print("Index:", index, "Column Name:", column_header)
 
 highs = []
+lows = []
 dates = []
 
 #as an example
@@ -24,7 +25,7 @@ dates = []
 
 for row in csv_file:
     highs.append(int(row[5]))
-    lows.append(int(row[6])
+    lows.append(int(row[6]))
     converted_date = datetime.strptime(row[2], "%Y-%m-%d")
     dates.append(converted_date)
 

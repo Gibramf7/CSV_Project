@@ -11,7 +11,7 @@ header_row = next(csv_file)
 # item as you loop through a list.
 
 for index, column_header in enumerate(header_row):
-    print("Index:", index, "Column Name:", column_header)
+    print(index, column_header)
 
 highs = []
 lows = []

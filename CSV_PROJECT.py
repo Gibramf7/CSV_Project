@@ -1,93 +1,57 @@
-
 import csv
 from datetime import datetime
+from matplotlib import pyplot as plt
 
-open_file = open("sitka_weather_2018_simple.csv", "r")
+filename = 'death_valley_2018_simple.csv'
+filename = 'sitka_weather_2018_simple.csv'
+place_name = ''
 
-csv_file = csv.reader(open_file, delimiter=",")
+with open(filename) as f:
+    reader = csv.reader(f)
+    header_row = next(reader)
 
-open_file = open("death_valley_2018_simple.csv", "r")
+    print(header_row)
+    date_index = header_row.index('DATE')
+    high_index = header_row.index('TMAX')
+    low_index = header_row.index('TMIN')
+    name_index = header_row.index('NAME')
 
-csv_file = csv.reader(open_file, delimiter=",")
 
-header_row = next(csv_file)
+    dates = []
+    highs =[]
+    lows = []
+    for row in reader:
+        if not place_name:
+            place_name = row[name_index]
+            print(place_name)
+            
+        converted_date = datetime.strptime(row[date_index], '%Y-%m-%d')
+        try:
+            high = int(row[high_index])
+            low = int(row[low_index])
+        except ValueError:
+            print(f"Missing data for {converted_date}")
+        else:
+            dates.append(converted_date)
+            highs.append(high)
+            lows.append(low)
 
-#The enumerate() function returns both of the index of each item and the value of each
-# item as you loop through a list.
+# Plot the high and low temperatures.
+fig, ax = plt.subplots(2)
+ax[0].plot(dates, highs, c='red', alpha=0.5)
+ax[0].plot(dates, lows, c='blue', alpha=0.5)
+plt.fill_between(dates, highs, lows, facecolor='blue', alpha=0.1)
 
-for index, column_header in enumerate(header_row):
-    print(index, column_header)
+ax[1].plot(dates, highs, c='red', alpha=0.5)
+ax[1].plot(dates, lows, c='blue', alpha=0.5)
+plt.fill_between(dates, highs, lows, facecolor='blue', alpha=0.1)
 
-highs = []
-lows = []
-dates = []
-
-#as an example
-#mydate = "2018-07-01"
-#converted_date = datetime.strptime(mydate, "%Y-%m-%d")
-
-#print(converted_date)
-
-for row in csv_file:
-    highs.append(int(row[5]))
-    lows.append(int(row[6]))
-    converted_date = datetime.strptime(row[2], "%Y-%m-%d")
-    dates.append(converted_date)
-
-for row in csv_file:
-    try:
-        high = int(row[4])
-        low = int(row[5])
-        converted_date = datetime.strptime(row[2], "%Y-%m-%d")
-    except ValueError:
-        print(f"missing data for {converted_date}")
-    else:
-        highs.append(high)
-        lows.append(low)
-        dates.append(converted_date)
-
-#print(highs)
-
-# plot highs on a chart
-
-import matplotlib.pyplot as plt
-
-fig = plt.figure()
-
-plt.plot(dates, highs, c="red")
-plt.plot(dates, lows, c="blue")
-
+# Format plot.
+suptitle = f"Temperature comparison between {place_name} and {place_name}"
+plt.suptitle(suptitle, fontsize=20)
+plt.xlabel('', fontsize=16)
 fig.autofmt_xdate()
-
-plt.fill_between(dates, highs, lows, facecolors='blue', alpha=0.1)
-
-
-plt.title("SITKA AIRPORT, AK US", fontsize=16)
-plt.xlabel("", fontsize=12)
-plt.ylabel("Temperature (F)", fontsize=12)
-plt.tick_params(axis="both", labelsize=12)
-
-plt.title("DEATH VALLEY, CA US", fontsize=16)
-plt.xlabel("", fontsize=12)
-plt.ylabel("Temperature (F)", fontsize=12)
-plt.tick_params(axis="both", labelsize=12)
-
+plt.tick_params(axis='both', labelsize=16)
 
 plt.show()
-
-fig, a = plt.subplots(2)
-
-a[0].plot(dates, highs, c="red")
-a[1].plot(dates, lows, c="blue")
-
-plt.show()
-
-
-
-fig, (ax1, ax2) = plt.subplots(2, sharex=True)
-fig.suptitle('Temperature comparison between SITKA AIRPORT, AK US and DEATH VALLEY, CA US')
-ax1.plot(x, y)
-ax2.plot(x + 1, -y)
-
-fig, ax = plt.subplots(2) 
 

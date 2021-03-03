@@ -49,10 +49,10 @@ for i in range (2):
 
 # Format plot.
 suptitle = f"Temperature comparison between SITKA AIRPORT, AK US and {place_name}"
-plt.suptitle(suptitle, fontsize=20)
-plt.xlabel('', fontsize=16)
+plt.suptitle(suptitle, fontsize=13)
+plt.xlabel('', fontsize=12)
 fig.autofmt_xdate()
-plt.tick_params(axis='both', labelsize=16)
+plt.tick_params(axis='both', labelsize=12)
 
 plt.show()
 

@@ -36,7 +36,7 @@ for i in range (2):
                 dates.append(converted_date)
                 highs.append(high)
                 lows.append(low)
-        #fig, ax = plt.subplots(2)
+        
         # Plot the high and low temperatures
         ax[i].plot(dates, highs, c='red', alpha=0.5)
         ax[i].plot(dates, lows, c='blue', alpha=0.5)
